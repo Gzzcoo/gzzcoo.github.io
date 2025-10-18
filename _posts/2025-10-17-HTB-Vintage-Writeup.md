@@ -2,13 +2,14 @@
 title: "HTB Vintage"
 date: 2025-10-17 09:35:00 +0000
 categories: [WriteUps, Hack The Box, Active Directory, Hard]
-tags: [NTLMDisabled, AS-REPRoast, Kerberoasting, Pre2kComputers, ReadGMSAPassword, gMSA, GenericWrite, ACLs, GenericAll, EnablingDisabledUser, TargetedKerberoast, PasswordSpraying, DPAPI, BloodHound, AllowedToAct, RBCD, Resource-basedConstrainedDelegation, KerberosDelegation, DCSync ]
+tags: [NTLMDisabled, AS-REPRoast, Kerberoasting, Pre2kComputers, ReadGMSAPassword, gMSA, GenericWrite, ACLs, GenericAll, EnablingDisabledUser, TargetedKerberoast, PasswordSpraying, DPAPI, BloodHound, AllowedToAct, RBCD, Resource-basedConstrainedDelegation, KerberosDelegation, DCSync]
 image: /assets/img/writeups/htb-vintage/VintageLogo.png
 ---
-
 `Vintage` es una máquina Windows con grandes dificultades diseñada en torno a un supuesto escenario de violación, en el que al atacante se le proporcionan credenciales de usuario con pocos privilegios. La máquina cuenta con un entorno Active Directory sin ADCS instalado, y la autenticación NTLM está deshabilitada. Hay una `Pre2k Computer created`, lo que significa que la contraseña es la misma que el sAMAccountName de la cuenta de la máquina. La "Domain Computer" unidad organizativa (OU) tiene una configuración que permite a los atacantes leer la contraseña de la cuenta de servicio, que tiene gMSA configurado. Tras obtener la contraseña, la cuenta de servicio puede añadirse a un grupo privilegiado. El grupo tiene control total sobre un usuario deshabilitado. El atacante debe restaurar el usuario deshabilitado y configurar un `Service Principal Name (SPN)` para realizar Kerberoasting. Después de recuperar la contraseña, la cuenta de usuario ha reutilizado la misma contraseña. El nuevo usuario comprometido tiene una contraseña almacenada en el Gestor de Credenciales. El usuario puede agregarse a otro grupo privilegiado configurado para la `Resource-based Constrained Delegation (RBCD)` en el Controlador de Dominio, lo que permite al atacante comprometerlo.
 
+- Tags: [#NTLMDisabled](/tags/ntlmdisabled/) [#AS-REPRoast](/tags/as-reproast/) [#Kerberoasting](/tags/kerberoasting/) [#Pre2kComputers](/tags/pre2kcomputers/) [#ReadGMSAPassword](/tags/readgmsapassword/) [#gMSA](/tags/gmsa/) [#GenericWrite](/tags/genericwrite/) [#ACLs](/tags/acls/) [#GenericAll](/tags/genericall/) [#EnablingDisabledUser](/tags/enablingdisableduser/) [#TargetedKerberoast](/tags/targetedkerberoast/) [#PasswordSpraying](/tags/passwordspraying/) [#DPAPI](/tags/dpapi/) [#BloodHound](/tags/bloodhound/) [#AllowedToAct](/tags/allowedtoact/) [#RBCD](/tags/rbcd/) [#Resource-basedConstrainedDelegation](/tags/resource-basedconstraineddelegation/) [#KerberosDelegation](/tags/kerberosdelegation/) [#DCSync](/tags/dcsync/)
 
+---
 ## Reconnaissance
 
 Para la fase de reconocimiento inicial de la máquina **`Vintage`** utilizamos nuestra herramienta personalizada [**iRecon**](https://github.com/Gzzcoo/iRecon). Esta herramienta automatiza un escaneo Nmap completo que incluye:
