@@ -2,7 +2,7 @@
 title: "HTB Vintage"
 date: 2025-10-17 09:35:00 +0000
 categories: [WriteUps, Hack The Box, Active Directory, Hard]
-tags: [NTLMDisabled, AS-REPRoast]
+tags: [NTLMDisabled, AS-REPRoast, Kerberoasting, Pre2kComputers, ReadGMSAPassword, gMSA, GenericWrite, ACLs, GenericAll, EnablingDisabledUser, TargetedKerberoast, PasswordSpraying, DPAPI, BloodHound, AllowedToAct, RBCD, Resource-basedConstrainedDelegation, KerberosDelegation, DCSync ]
 image: /assets/img/writeups/htb-vintage/VintageLogo.png
 ---
 
